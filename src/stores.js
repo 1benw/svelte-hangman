@@ -1,4 +1,18 @@
-import { writable, derived } from 'svelte/store';
+import { writable, derived, readable } from 'svelte/store';
+import wordList from './wordList.json';
+
+let allWords = [];
+for (const theme of wordList) {
+    allWords = [...allWords, ...theme.words];
+}
+
+wordList.push({
+    theme: 'all',
+    name: 'All Themes 🎲',
+    words: allWords,
+});
+
+export const wordThemes = readable(wordList.sort((a, b) => a.name.localeCompare(b.name)));
 
 export const defaultLives = 8;
 
@@ -43,7 +57,6 @@ export const revealedWord = derived([word, guessedLetters], ([$word, $guessedLet
     let rWord = '';
     if ($word) {
         for (const letter of $word) {
-            console.log($guessedLetters)
             if ($guessedLetters.includes(letter) || letter === ' ') {
                 rWord += letter;
             } else {

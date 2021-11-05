@@ -2,7 +2,7 @@
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
     import { word, remainingLives } from '../stores';
-    import { startNewGame } from '../hangman';
+    import { startNewGame, mainMenu } from '../hangman';
     export let win = true;
 
     onMount(() => {
@@ -39,13 +39,13 @@
         {/if}
         <br>
 
-        <p>Word: <b>{$word.toLowerCase()}</b></p>
+        <p>Word: <b>{String($word).toLowerCase()}</b></p>
         <p>Lives Remaining: <b>{$remainingLives}</b></p>
     </div>
 
     <div class="buttons">
-        <button on:click={startNewGame}>Play Again</button>
-        <button on:click={startNewGame}>Main Menu</button>
+        <button class="regularButton" on:click={startNewGame}>Play Again!</button>
+        <button class="regularButton" on:click={mainMenu}>Main Menu</button>
     </div>
 
 </div>
@@ -84,6 +84,7 @@
             button {
                 width: 45%;
                 margin: 0 2.5%;
+                font-size: 18px;
             }
         }
     }

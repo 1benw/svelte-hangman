@@ -1,14 +1,8 @@
 <script>
-	import { fade, fly, crossfade } from 'svelte/transition';
-	import { expoOut } from 'svelte/easing';
+	import { fade } from 'svelte/transition';
 	import { Word, Hangman, SplashScreen, Popover, Results } from './components';
 	import { remainingLives, word, revealedWord, fullyRevealedWord } from './stores';
 	import { handleKeydown } from './hangman';
-
-	const [send, receive] = crossfade({
-		duration: 1500,
-		easing: expoOut,
-	});
 
 </script>
 
@@ -19,7 +13,7 @@
 <div class="bg bg3"></div>
 
 {#if $word}
-	<main in:send={'game'} out:receive={'game'}>
+	<main transition:fade>
 		<div class="word-row">
 			<Word word={$revealedWord} />
 		</div>
@@ -34,7 +28,7 @@
 		{/if}
 	</main>
 	{:else}
-	<main in:send={'splash'} out:receive={'splash'}>
+	<main transition:fade>
 		<SplashScreen />
 	</main>
 {/if}
