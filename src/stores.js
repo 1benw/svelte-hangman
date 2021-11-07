@@ -8,7 +8,7 @@ for (const theme of wordList) {
 
 wordList.push({
     theme: 'all',
-    name: 'All Themes 🎲',
+    name: 'All Themes 🔗',
     words: allWords,
 });
 
@@ -42,16 +42,33 @@ function createRemainingLives() {
 export const remainingLives = createRemainingLives();
 
 function createGuessedLetters() {
-    const { subscribe, set, update } = writable(Array());
+    const { subscribe, set, update } = writable([]);
 
     return {
         subscribe,
         add: (l) => update(letters => [...letters, l]),
-        reset: () => set(Array()),
+        reset: () => set([]),
     }
 };
 
 export const guessedLetters = createGuessedLetters();
+
+function createGameDataStore() {
+    const { subscribe, set, update } = writable({});
+
+    return {
+        subscribe,
+        set: (key, value) => update(data => {
+            return { ...data, [key]: value };
+        }),
+        clear: (key) => update(data => {
+            return { ...data, [key]: null };
+        }),
+        reset: () => set({}),
+    }
+}
+
+export const gameData = createGameDataStore();
 
 export const revealedWord = derived([word, guessedLetters], ([$word, $guessedLetters]) => {
     let rWord = '';
@@ -75,9 +92,11 @@ export const fullyRevealedWord = derived([word, guessedLetters], ([$word, $guess
                 return false;
             }
         }
-    }
 
-    return true;
+        return true;
+    } else {
+        return false;
+    }
 });
 
 export function resetGameStores() {

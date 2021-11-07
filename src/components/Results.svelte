@@ -1,7 +1,7 @@
 <script>
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
-    import { word, remainingLives } from '../stores';
+    import { gameData } from '../stores';
     import { startNewGame, mainMenu } from '../hangman';
     export let win = true;
 
@@ -39,12 +39,13 @@
         {/if}
         <br>
 
-        <p>Word: <b>{String($word).toLowerCase()}</b></p>
-        <p>Lives Remaining: <b>{$remainingLives}</b></p>
+        <p>Theme: <b>{$gameData.theme.name}</b></p>
+        <p>Word: <b>{String($gameData.results.word).toLowerCase()}</b></p>
+        <p>Lives Remaining: <b>{$gameData.results.remainingLives}</b></p>
     </div>
 
     <div class="buttons">
-        <button class="regularButton" on:click={startNewGame}>Play Again!</button>
+        <button class="regularButton" on:click={startNewGame($gameData.theme.theme)}>Play Again!</button>
         <button class="regularButton" on:click={mainMenu}>Main Menu</button>
     </div>
 
@@ -88,7 +89,6 @@
             }
         }
     }
-
 
     @keyframes pulse {
         0% {

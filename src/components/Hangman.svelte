@@ -42,6 +42,7 @@
     svg {
         height: 40vh;
         width: 35vw;
+        margin-bottom: 2.5%;
     }
 
     line, circle {

@@ -1,10 +1,9 @@
 <script>
     import { wordThemes } from '../stores';
     import { startNewGame } from '../hangman';
-    import { Word } from './';
+    import { Word, Hangman } from './';
 
     let viewingThemes = false;
-
     function toggleThemeView() {
         viewingThemes = !viewingThemes;
     };
@@ -23,9 +22,12 @@
                 {/if}
             {/each}
         </div>
-        <button class="regularButton backButton" on:click={toggleThemeView}>Go Back</button>
+        <button class="regularButton" style="width: 75%;" on:click={toggleThemeView}>Go Back</button>
     {:else}
-        <button class="regularButton" on:click={toggleThemeView}>Play!</button>
+        <div>
+            <Hangman remaining={0} />
+            <button class="regularButton play" on:click={toggleThemeView}>Play!</button>
+        </div>
     {/if}
 </div>
 
@@ -33,11 +35,18 @@
 <style lang="less">
     @import '../theme.less';
 
-
     .container {
         height: 80%;
         width: 90%;
         margin: auto;
+    }
+
+    .play {
+        margin-top: 5%;
+        width: 30%;
+        animation: pulse 1s infinite;
+        transition: 0.5s;
+        font-size: 30px;
     }
 
     .themeSelect {
@@ -57,14 +66,25 @@
             height: 15%;
             width: 15%;
             margin: 2.5%;
+
             &.all {
                 width: 32.5%;
             }
         }
-
     }
 
-    .backButton {
-        width: 75%;
+
+    @keyframes pulse {
+        0% {
+            transform: scale(0.9);
+        }
+
+        70% {
+            transform: scale(1.0);
+        }
+
+        100% {
+            transform: scale(0.9);
+        }
     }
 </style>

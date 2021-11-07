@@ -1,28 +1,31 @@
 import { get } from 'svelte/store';
-import { wordThemes, word, guessedLetters, remainingLives, fullyRevealedWord, resetGameStores } from './stores';
+import { wordThemes, word, guessedLetters, remainingLives, fullyRevealedWord, resetGameStores, gameData } from './stores';
 
-export function generateWord(theme = 'all') {
+export function startNewGame(theme = 'all') {
+    if (get(word)) {
+        resetGameStores();
+    };
+
     const themes = get(wordThemes);
     const targetTheme = themes.find(t => t.theme === theme);
 
-    const generatedWord = targetTheme.words[Math.floor(Math.random() * targetTheme.words.length)];
-    return generatedWord.toUpperCase();
-}
-
-export function startNewGame(theme) {
-    if (get(word)) {
-        resetGameStores();
-    };
-
-    const newWord = generateWord(theme);
+    const newWord = targetTheme.words[Math.floor(Math.random() * targetTheme.words.length)].toUpperCase();
 
     word.set(newWord);
+    gameData.set('complete', false);
+    gameData.set('theme', {
+        theme: targetTheme.theme,
+        name: targetTheme.name,
+    });
+
+    console.log('New Game: ', newWord);
+
+    gameData.set('active', true);
 }
 
 export function mainMenu() {
-    if (get(word)) {
-        resetGameStores();
-    };
+    gameData.set('active', false);
+    gameData.set('complete', false);
 };
 
 export function handleKeydown(e) {
@@ -47,3 +50,24 @@ export function handleKeydown(e) {
         console.log('Game not in progress');
     }
 }
+
+function finishGame(won) {
+    gameData.set('complete', true);
+    gameData.set('results', {
+        won: won,
+        remainingLives: get(remainingLives),
+        word: get(word),
+    });
+}
+
+fullyRevealedWord.subscribe((revealed) => {
+    if (revealed) {
+        finishGame(true);
+    }
+});
+
+remainingLives.subscribe((remaining) => {
+    if (remaining <= 0) {
+        finishGame(false);
+    }
+})

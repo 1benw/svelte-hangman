@@ -1,23 +1,24 @@
 <script>
-    import Letter from './Letter.svelte';
-    export let word = 'Eggs';
+    import { guessedLetters } from '../stores';
+    import { Letter }  from './'
 </script>
 
-<div>
-    {#each word as i}
-        <Letter letter={i} />
+<h2>Used Letters</h2>
+<div class="container">
+    {#each $guessedLetters as letter}
+        <Letter letter={letter} />
     {/each}
 </div>
+
 
 <style lang="less">
     @import '../theme.less';
 
-    div {
+    .container {
         display: flex;
         flex-direction: row;
         flex-grow: 1;
         gap: 10px;
-        padding: 0 2.5% 3.5% 2.5%;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
