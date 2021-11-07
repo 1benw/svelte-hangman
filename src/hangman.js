@@ -18,9 +18,9 @@ export function startNewGame(theme = 'all') {
         name: targetTheme.name,
     });
 
-    console.log('New Game: ', newWord);
-
     gameData.set('active', true);
+
+    console.log('New Game With Word: ', newWord);
 }
 
 export function mainMenu() {
@@ -35,13 +35,13 @@ export function handleKeydown(e) {
         if (get(remainingLives) > 0 && !get(fullyRevealedWord)) {
             const newGuess = e.key.toUpperCase();
             if (newGuess.length === 1 && (/[A-Z]/).test(newGuess)) {
-    
+
                 if (!get(guessedLetters).includes(newGuess)) {
-    
+
                     if (!currentWord.includes(newGuess)) {
                         remainingLives.decrement();
                     }
-    
+
                     guessedLetters.add(newGuess);
                 }
             }
