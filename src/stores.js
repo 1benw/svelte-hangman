@@ -14,7 +14,7 @@ wordList.push({
 
 export const wordThemes = readable(wordList.sort((a, b) => a.name.localeCompare(b.name)));
 
-export const defaultLives = 8;
+export const defaultLives = 7;
 
 function createWord() {
     const { subscribe, set, update } = writable(false);

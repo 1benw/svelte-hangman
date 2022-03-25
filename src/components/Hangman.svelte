@@ -1,5 +1,5 @@
 <script>
-    export let remaining = 8;
+    export let remaining = 7;
 
     function hasRemainingLives(remaining, lives) {
         return (remaining > lives) && 'hidden';
@@ -31,7 +31,7 @@
         <line x1="7.5%"     y1="95%"    x2="75%"    y2="95%" /> <!-- Base -->
         <line x1="20.5%"    y1="4.5%"   x2="20.5%"  y2="95%" />
         <line x1="20.5%"    y1="5%"     x2="50.5%"  y2="5%" />
-        <line x1="50%"      y1="5%"     x2="50%"    y2="15%" class={hasRemainingLives(remaining, 7)} /> <!-- Rope -->
+        <line x1="50%"      y1="5%"     x2="50%"    y2="15%" class={hasRemainingLives(remaining, 6)} /> <!-- Rope -->
     </svg>
 </div>
 
